@@ -99,7 +99,7 @@ service-worker: true
 # Friends
 friends: [
     {
-        title: "简书·BY",
+        title: "简书·gregoriusxu",
         href: "http://www.jianshu.com/u/521c0824543e"
     }
 ]
