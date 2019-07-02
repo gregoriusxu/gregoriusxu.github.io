@@ -18,7 +18,7 @@ tags:
 
 &emsp;&emsp;经过10年的规划，ES5的终于出来了，ES5 与 ES3 基本保持兼容，较大的语法修正和新功能加入，ES5 在 2013 年的年中成为 JavaScript 开发的主流标准，并在此后五年中一直保持这个位置。ES6作为下一代的JavaScript语言，终于引入了[Class和Module的概念](http://www.alloyteam.com/2016/03/es6-front-end-developers-will-have-to-know-the-top-ten-properties/)，同时随着[nodejs](https://nodejs.org/)的推出，JavaScript已经具备了后端面向对象语言的能力，可以完全使用JavaScript开发出复杂的系统。这里是目前各大浏览器对[ES6的支持情况](https://kangax.github.io/compat-table/es6/)。
 
-###当前主流的前端框架
+### 当前主流的前端框架
 
 [angular]([https://angularjs.org/](https://angularjs.org/))：
 Angular1
@@ -44,7 +44,7 @@ React 和 Vue 有许多相似之处，它们都有：
 
 三大主流系统都是支持组件模块化的框架，这里是Vue提供的[对比图](https://cn.vuejs.org/v2/guide/comparison.html)，值得参考。
 
-###框架选择
+### 框架选择
 
 &emsp;&emsp;对于中小型项目来说，选择Vue可能是最好的选择，它兼固其它两大框架的优势，并且学习曲线相当平坦，劣势在于生态方面弱于两者。官网提供了丰富的文档，完全可以只看官网文档即可入门和精通。如果想深入学习可以参考这个[blog](https://yugasun.com/)。
 
