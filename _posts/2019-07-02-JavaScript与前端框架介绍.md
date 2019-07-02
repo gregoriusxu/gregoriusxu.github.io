@@ -49,8 +49,8 @@ React 和 Vue 有许多相似之处，它们都有：
 &emsp;&emsp;对于中小型项目来说，选择Vue可能是最好的选择，它兼固其它两大框架的优势，并且学习曲线相当平坦，劣势在于生态方面弱于两者。官网提供了丰富的文档，完全可以只看官网文档即可入门和精通。如果想深入学习可以参考这个[blog](https://yugasun.com/)。
 
 >本文参考文章如下：
-https://www.25xt.com/html5css3/15161.html
-http://es6.ruanyifeng.com/#docs/intro
-http://caibaojian.com/toutiao/6864
-https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/A_re-introduction_to_JavaScript
-https://cn.vuejs.org/v2/guide/index.html
+- https://www.25xt.com/html5css3/15161.html
+- http://es6.ruanyifeng.com/#docs/intro
+- http://caibaojian.com/toutiao/6864
+- https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/A_re-introduction_to_JavaScript
+- https://cn.vuejs.org/v2/guide/index.html
