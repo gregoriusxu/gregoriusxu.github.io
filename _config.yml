@@ -108,14 +108,14 @@ friends: [
 works: [
     {
         title: "便查快递",
-        href: "img/express.jpg"
+        href: "/img/express.jpg"
     },
     {
         title: "各种无水印解析",
-        href: "img/videoparse.jpg"
+        href: "/img/videoparse.jpg"
     },
     {
         title: "垃圾分类搜索程序",
-        href: "img/classification.jpg"
+        href: "/img/classification.jpg"
     }
 ]
