@@ -50,7 +50,7 @@ layout: default
                     <h5><a href="{{'/tags/' | prepend: site.baseurl }}">FEATURED TAGS</a></h5>
                     <div class="tags">
         				{% for tag in site.tags %}
-                            {% if tag[1].size > {{site.featured-condition-size}} %}
+                            {% if tag[1].size > site.featured-condition-size %}
                 				<a href="{{ site.baseurl }}/tags/#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">
                                     {{ tag[0] }}
                                 </a>
@@ -67,6 +67,17 @@ layout: default
                 <ul class="list-inline">
                     {% for friend in site.friends %}
                         <li><a href="{{friend.href}}">{{friend.title}}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <!-- Works -->
+                {% if site.works %}
+                <hr>
+                <h5>WORKS</h5>
+                <ul class="list-inline">
+                    {% for work in site.works %}
+                        <li><img href="{{work.href}}">{{work.title}}</img></li>
                     {% endfor %}
                 </ul>
                 {% endif %}
@@ -99,7 +110,7 @@ layout: default
                     <h5><a href="{{'/tags/' | prepend: site.baseurl }}">FEATURED TAGS</a></h5>
                     <div class="tags">
                         {% for tag in site.tags %}
-                            {% if tag[1].size > {{site.featured-condition-size}} %}
+                            {% if tag[1].size > site.featured-condition-size %}
                                 <a href="{{ site.baseurl }}/tags/#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">
                                     {{ tag[0] }}
                                 </a>
@@ -208,6 +219,15 @@ layout: default
                 <ul class="list-inline">
                     {% for friend in site.friends %}
                         <li><a href="{{friend.href}}">{{friend.title}}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if site.works %}
+                <hr>
+                <h5>WORKS</h5>
+                <ul class="list-inline">
+                    {% for work in site.works %}
+                        <li><img src="{{work.href}}">{{work.title}}</img></li>
                     {% endfor %}
                 </ul>
                 {% endif %}

@@ -103,3 +103,19 @@ friends: [
         href: "http://www.jianshu.com/u/521c0824543e"
     }
 ]
+
+# Works
+works: [
+    {
+        title: "便查快递",
+        href: "img/express.jpg"
+    },
+    {
+        title: "各种无水印解析",
+        href: "img/videoparse.jpg"
+    },
+    {
+        title: "垃圾分类搜索程序",
+        href: "img/classification.jpg"
+    }
+]
