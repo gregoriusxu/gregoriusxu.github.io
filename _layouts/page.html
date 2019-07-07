@@ -75,9 +75,10 @@ layout: default
                 {% if site.works %}
                 <hr>
                 <h5>WORKS</h5>
-                <ul class="list-inline">
+                <ul class="list-unstyled">
                     {% for work in site.works %}
-                        <li><img href="{{work.href}}">{{work.title}}</img></li>
+                        <li><img src="{{work.href}}" /></li>
+                        <li>{{work.title}}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}
@@ -225,9 +226,10 @@ layout: default
                 {% if site.works %}
                 <hr>
                 <h5>WORKS</h5>
-                <ul class="list-inline">
+                <ul class="list-unstyled">
                     {% for work in site.works %}
-                        <li><img src="{{work.href}}">{{work.title}}</img></li>
+                        <li><img src="{{work.href}}" /></li>
+                        <li>{{work.title}}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}
