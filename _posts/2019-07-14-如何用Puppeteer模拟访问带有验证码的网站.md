@@ -12,7 +12,7 @@ tags:
 
 #### 什么是[Puppeteer](https://github.com/GoogleChrome/puppeteer)？
 
-一个提供高级API的node库，能够通过devtool控制headless模式的chrome或者chromium，它可以在headless模式下模拟任何的人为操作。简单来说是用来做模拟测试和爬虫用的，还有一个selenium和它类似，但是selenium更加的多元化，所用的技术栈更加的复杂，今天我们主要是介绍Pupperteer,想了解selenium可以参考官网地址[selenium](https://www.seleniumhq.org/)。
+一个提供高级API的node库，能够通过devtool控制headless模式的chrome或者chromium，它可以在headless模式下模拟任何的人为操作。简单来说是用来做模拟测试和爬虫用的，还有一个selenium和它类似，但是selenium更加的多元化，所用的技术栈更加的复杂，今天我们主要是介绍Pupperteer，想了解selenium可以参考官网地址[selenium](https://www.seleniumhq.org/)。
 
 #### [TypeScript](https://www.typescriptlang.org/)
 
