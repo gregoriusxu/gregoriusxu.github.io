@@ -16,9 +16,9 @@ tags:
 
 Spring具有非常大的灵活性，它提供了三种主要的装配机制：
 
-   - 在XML中进行显式配置。
-  - 在Java中进行显式配置。
-  - 隐式的bean发现机制和自动装配。
+- 在XML中进行显式配置。
+- 在Java中进行显式配置。
+- 隐式的bean发现机制和自动装配。
 
  **Spring的配置风格是可以互相搭配的，所以你可以选择使用XML装配一些bean，使用Spring基于Java的配置（JavaConfig）来装配另一些bean，而将剩余的bean让Spring去自动发现。**
 
