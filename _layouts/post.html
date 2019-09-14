@@ -67,10 +67,11 @@ layout: default
     <div class="container">
         {% if site.ga_ad_clientid %}
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="{{site.ga_ad_clientid}}"
-                data-ad-slot="9404721383" data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({
+                    google_ad_client: "{{site.ga_ad_clientid}}",
+                    enable_page_level_ads: true
+                });
             </script>
         {% endif %}
         <div class="row">
