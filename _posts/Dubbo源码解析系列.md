@@ -1,0 +1,151 @@
+---
+layout:     post
+title:      Dubbo源码解析系列
+subtitle:   Hello,Dubbo
+date:       2020-7-4
+author:     加点代码调调味
+header-img: img/post-bg-swift.jpg
+catalog: true
+tags:
+    - 设计
+---
+
+### Hello,Dubbo
+你好，dubbo，初次见面，我想和你交个朋友。
+
+##### Dubbo你到底是什么？
+先给出一套官方的说法：Apache Dubbo是一款高性能、轻量级基于Java的RPC开源框架。
+
+##### 那么什么是RPC？
+> 文档地址：http://dubbo.apache.org/zh-cn...
+
+文档简短形象的对单一应用架构、垂直应用架构、分布式服务架构、流动计算架构做了一个对比，可以很明白的看出这四个架构所适用的场景，因为业务需求越来越复杂，才会有这一系列的演变。
+
+RPC英文全名为Remote Procedure Call，也叫远程过程调用，其实就是一个计算机通信协议，它是一种通过网络从远程计算机程序上请求服务,而不需要了解底层网络技术的协议。计算机通信协议有很多种，对于开发来说，很多熟悉的是HTTP协议，我这里就做个简单的比较，HTTP协议是属于应用层的，而RPC跨越了传输层和应用层。HTTP本身的三次握手协议，每发送一次请求，都会有一次建立连接的过程，就会带来一定的延迟，并且HTTP本身的报文庞大，而RPC可以按需连接，调用结束后就断掉，也可以是长链接，多个远程过程调用共享同一个链接，可以看出来RPC的效率要高于HTTP，但是相对于开发简单快速的HTTP服务,RPC服务就会显得复杂一些。
+
+回到原先的话题，继续来聊聊dubbo。关于dubbo 的特点分别有连通性、健壮性、伸缩性、以及向未来架构的升级性。特点的详细介绍也可以参考上述链接的官方文档。官方文档拥有的内容我在这就不一一进行阐述了。
+
+因为接下来需要对dubbo各个模块的源码以及原理进行解析，所以介绍一下dubbo的源码库，dubbo框架已经交由Apache基金会进行孵化，被挂在github开源。
+
+github地址：https://github.com/apache/inc...
+然后讲一下dubbo的版本策略：两个大版本并行发展，2.5.x是稳定版本，2.6.x是新功能实验版本。2.6上实验都稳定了以后，会迁移到2.5，所以如果你想了解dubbo最新的牛逼特性，就选择2.6，否则用2.5版本。我接下来介绍都是基于2.6.x版本。
+
+##### dubbo框架源代码解析系列
+
+[顺着dubbo入口撸ExtensionLoader源码](https://www.jianshu.com/p/2f4eeb8ef93a)
+
+[Dubbo源码解析（一）Hello,Dubbo](https://segmentfault.com/a/1190000016741532)
+
+[Dubbo源码解析（二）Dubbo扩展机制SPI](https://segmentfault.com/a/1190000016842868)
+
+[Dubbo源码解析（三）注册中心——开篇](https://segmentfault.com/a/1190000016905715)
+
+[Dubbo源码解析（四）注册中心——dubbo](https://segmentfault.com/a/1190000016921721)
+
+[Dubbo源码解析（五）注册中心——multicast](https://segmentfault.com/a/1190000016970061)
+
+[Dubbo源码解析（六）注册中心——redis](https://segmentfault.com/a/1190000017062594)
+
+[Dubbo源码解析（七）注册中心——zookeeper](https://segmentfault.com/a/1190000017132620)
+
+[Dubbo源码解析（八）远程通信——开篇](https://segmentfault.com/a/1190000017274525)
+
+[Dubbo源码解析（九）远程通信——Transport层](https://segmentfault.com/a/1190000017390253)
+
+[Dubbo源码解析（十）远程通信——Exchange层](https://segmentfault.com/a/1190000017467343)
+
+[Dubbo源码解析（十一）远程通信——Buffer](https://segmentfault.com/a/1190000017483889)
+
+[Dubbo源码解析（十二）远程通信——Telnet](https://segmentfault.com/a/1190000017485091)
+
+[Dubbo源码解析（十三）远程通信——Grizzly](https://segmentfault.com/a/1190000017496988)
+
+[Dubbo源码解析（十四）远程通信——Http](https://segmentfault.com/a/1190000017508549)
+
+[Dubbo源码解析（十五）远程通信——Mina](https://segmentfault.com/a/1190000017519378)
+
+[Dubbo源码解析（十六）远程通信——Netty3](https://segmentfault.com/a/1190000017530167)
+
+[Dubbo源码解析（十七）远程通信——Netty4](https://segmentfault.com/a/1190000017553202)
+
+[Dubbo源码解析（十八）远程通信——Zookeeper](https://segmentfault.com/a/1190000017565522)
+
+[Dubbo源码解析（十九）远程调用——开篇](https://segmentfault.com/a/1190000017787521)
+
+[Dubbo源码解析（二十）远程调用——Filter](https://segmentfault.com/a/1190000017815616)
+
+[Dubbo源码解析（二十一）远程调用——Listener](https://segmentfault.com/a/1190000017827073)
+
+[Dubbo源码解析（二十二）远程调用——Protocol](https://segmentfault.com/a/1190000017854954)
+
+[Dubbo源码解析（二十三）远程调用——Proxy](https://segmentfault.com/a/1190000017892690)
+
+[Dubbo源码解析（二十四）远程调用——dubbo协议](https://segmentfault.com/a/1190000017973639)
+
+[Dubbo源码解析（二十五）远程调用——hessian协议](https://segmentfault.com/a/1190000017998711)
+
+[Dubbo源码解析（二十六）远程调用——http协议](https://segmentfault.com/a/1190000018002784)
+
+[Dubbo源码解析（二十七）远程调用——injvm本地调用](https://segmentfault.com/a/1190000018016406)
+
+[Dubbo源码解析（二十八）远程调用——memcached协议](https://segmentfault.com/a/1190000018034217)
+
+[Dubbo源码解析（二十九）远程调用——redis协议](https://segmentfault.com/a/1190000018045851)
+
+[Dubbo源码解析（三十）远程调用——rest协议](https://segmentfault.com/a/1190000018054361)
+
+[Dubbo源码解析（三十一）远程调用——rmi协议](https://segmentfault.com/a/1190000018098414)
+
+[Dubbo源码解析（三十二）远程调用——thrift协议](https://segmentfault.com/a/1190000018070746)
+
+[Dubbo源码解析（三十三）远程调用——webservice协议](https://segmentfault.com/a/1190000018079811)
+
+[Dubbo源码解析（三十四）集群——开篇](https://segmentfault.com/a/1190000018088905)
+
+[Dubbo源码解析（三十五）集群——cluster](https://segmentfault.com/a/1190000018099552)
+
+[Dubbo源码解析（三十六）集群——configurator](https://segmentfault.com/a/1190000018100997)
+
+[Dubbo源码解析（三十七）集群——directory](https://segmentfault.com/a/1190000018102784)
+
+[Dubbo源码解析（三十八）集群——LoadBalance](https://segmentfault.com/a/1190000018105767)
+
+[Dubbo源码解析（三十九）集群——merger](https://segmentfault.com/a/1190000018121914)
+
+[Dubbo源码解析（四十）集群——router](https://segmentfault.com/a/1190000018141200)
+
+[Dubbo源码解析（四十一）集群——Mock](https://segmentfault.com/a/1190000018154297)
+
+[Dubbo源码解析（四十二）序列化——开篇](https://segmentfault.com/a/1190000018505481)
+
+[Dubbo源码解析（四十三）2.7新特性](https://segmentfault.com/a/1190000018657457)
+
+[Dubbo源码解析（四十四）服务暴露过程](https://segmentfault.com/a/1190000018953699)
+
+[Dubbo源码解析（四十五）服务引用过程](https://segmentfault.com/a/1190000018999555)
+
+[Dubbo源码解析（四十六）消费端发送请求过程](https://segmentfault.com/a/1190000019387309)
+
+[Dubbo源码解析（四十七）服务端处理请求过程](https://segmentfault.com/a/1190000019420778)
+
+[Dubbo源码解析（四十八）异步化改造](https://segmentfault.com/a/1190000019960031)
+
+[Dubbo Roadmap与未来展望](https://segmentfault.com/a/1190000021821028)
+
+[从2.7.0-2.7.5版本，Dubbo调用链路是如何提升30%性能的](https://segmentfault.com/a/1190000021886082)
+
+[一顿火锅引发对限流的思考，深夜误点！](https://segmentfault.com/a/1190000021940066)
+
+[美股熔断机制和服务熔断机制有什么异曲同工之妙](https://segmentfault.com/a/1190000021973914)
+
+[Congratulations Apache® Dubbo™ as a TLP](https://segmentfault.com/a/1190000019245932)
+
+
+作者：加点代码调调味
+链接：https://segmentfault.com/a/1190000016741532
+来源：SegmentFault 思否
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+
