@@ -8,7 +8,7 @@ header-img: img/post-bg-ios9-web.jpg
 catalog: true
 tags:
     - iOS
-    - 开发技巧
+    - 开发技巧1
 ---
 
 >JSON转模型是我们做iOS开发的基础技能，本文将通过[YYModel](https://github.com/ibireme/YYModel)这个框架安全快速的完成JSON到模型的转换，其中还会介绍到一款好用的插件[ESJsonFormat](https://github.com/EnjoySR/ESJsonFormat-Xcode)。
