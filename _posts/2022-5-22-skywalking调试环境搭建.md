@@ -1,13 +1,12 @@
 ---
-layout:     post
-title:      skywalking本地调试
-subtitle:   介绍skywalking本地调试搭建过程
-date:       2022-05-22
-author:     gregorius
+layout: post
+title: skywalking本地调试
+subtitle: 介绍skywalking本地调试搭建过程
+date: 2022-05-22T00:00:00+08:00
+author: gregorius
 header-img: img/post-bg-swift.jpg
 catalog: true
-tags:
-    - 实践
+tags: [实践]
 ---
 
 skywalking是一款很优秀的监控系统，采用代理方式基于切面编程来拦截请求进行监控数据记录，架构采用CS模式，server端地址https://github.com/apache/skywalking，java客户端地址https://github.com/apache/skywalking-java
