@@ -373,7 +373,7 @@ public static void start(ClassLoader classLoader,MethodInfo methodInfo, String..
 
 大家可以发现以上方案已经是非常好了，我们可以通过精确配置需要监控的类，同时可以通过扩展将监控数据使用扩展的方式存储到任何地方，但是这种方案也有其局限性，首先AroundInterceptor的逻辑实现可能非常复杂，特别是对于一些复杂调用链的情况，其次这种上报方式不是很好调度，容易引发性能问题，同时对于一些复杂的采样，合计，汇总等监控方式还是需要实现复杂的代码才能实现，那么有没有更好的方案呢？
 
-答案是当然有，我推荐[https://github.com/apache/skywalking](https://github.com/apache/skywalking)，如果需要更进一步的学习，可以参考github或者官方文档，原理和上面所讲的是类似的，但是上面只是讲了客户的采集，对于服务端的实现还需要读者进一步挖掘。
+答案是当然有，我推荐[skywalking](https://github.com/apache/skywalking)，如果需要更进一步的学习，可以参考github或者官方文档，原理和上面所讲的是类似的，但是上面只是讲了客户的采集，对于服务端的实现还需要读者进一步挖掘。
 
 
 
