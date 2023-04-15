@@ -4,7 +4,7 @@ title: skywalking本地调试
 subtitle: 介绍skywalking本地调试搭建过程
 date: 2022-05-22T00:00:00+08:00
 author: gregorius
-header-img: img/post-bg-swift.jpg
+header-img: img/post-bg-universe.jpg
 tags: [实践]
 catalog: null
 ---

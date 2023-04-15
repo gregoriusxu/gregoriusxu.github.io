@@ -4,7 +4,7 @@ title:      JavaScript与前端框架介绍
 subtitle:   JavaScript与前端框架介绍
 date:       2019-07-02
 author:     gregorius
-header-img: img/post-bg-swift.jpg
+header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
     - 分布式

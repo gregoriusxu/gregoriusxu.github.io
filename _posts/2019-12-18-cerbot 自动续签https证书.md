@@ -4,7 +4,7 @@ title:      cerbot 自动续签https证书
 subtitle:   填坑指南
 date:       2019-12-18
 author:     gregorius
-header-img: img/post-bg-swift.jpg
+header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
     - 知识点

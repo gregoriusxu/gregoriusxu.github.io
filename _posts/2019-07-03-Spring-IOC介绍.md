@@ -4,7 +4,7 @@ title:      Spring-IOC介绍
 subtitle:   Spring-IOC介绍
 date:       2019-07-03
 author:     gregorius
-header-img: img/post-bg-swift.jpg
+header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
     - Java

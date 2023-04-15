@@ -4,7 +4,7 @@ title:      如何用Puppeteer模拟访问带有验证码的网站
 subtitle:   Puppeteer介绍
 date:       2019-07-14
 author:     gregorius
-header-img: img/post-bg-swift.jpg
+header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
     - 前端

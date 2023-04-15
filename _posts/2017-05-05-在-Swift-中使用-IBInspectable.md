@@ -4,7 +4,7 @@ title:      在 Swift 中使用 IBInspectable
 subtitle:   IBInspectable 在 Swift 中的实际应用
 date:       2017-05-05
 author:     BY
-header-img: img/post-bg-swift.jpg
+header-img: img/post-bg-universe.jpg
 catalog: true
 tags:
     - iOS
