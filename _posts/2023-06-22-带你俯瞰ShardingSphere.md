@@ -27,7 +27,7 @@ tags: [设计]
 分表分库分为垂直分片和水平分表两种，两者可以同时进行，目前市面上的主流分表分库产品主要有三种：
 
 - 客户端分片
-  典型的中间件包括阿里巴巴的 TDDL 以及本课程将要介绍的 ShardingSphere
+  典型的中间件包括阿里巴巴的 TDDL 以及ShardingSphere
 - 代理服务器分片
   常见的开源框架有阿里的 Cobar 以及民间开源社区的 MyCat。而在 ShardingSphere 3.X 版本中，也添加了 Sharding-Proxy 模块来实现代理服务器分片。
 - 分布式数据库
