@@ -2,7 +2,6 @@
 layout: post
 title: 带你俯瞰ShardingSphere
 subtitle: 了解ShardingSphere架构设计
-date: 2023-06-22 T00:00:00+08:00
 author: gregorius
 header-img: img/post-bg-universe.jpg
 catalog: true
@@ -73,7 +72,9 @@ Sharding-JDBC 的定位是一个轻量级 Java 框架，在 JDBC 层提供了扩
 - parser
 - jdbc
 - kernel
+
 等还有很多其它模块，我们先看上面主流的三大模块，infra属于最高层的模块，涵盖了我们上面列出的5大步骤，分别对应parser,route,rewrite,excutor,merge;parser主要是交给parser模块解析，route底层的立即主要分散在feature和kernel，主要由7种路由方式:
+
 - Single 单播
 - Shardings 根据SQL路由,标准默认
 - SqlRouteFixture 默认固定路由
@@ -90,7 +91,7 @@ Single主要的代码在kernel模块，而其他几个主要是在feature模块�
 
 #### 从Hello Word开始带你入门
 
-项目里面虽然有example，但是确实结构混乱，也不如完全，这里找到一篇官方的例子可以[参考](https://shardingsphere.apache.org/document/5.0.0/en/user-manual/shardingsphere-jdbc/usage/sharding/java-api/)，例子主要分为两段，第一段是创建数据源，第二段是使用数据源执行SQL，如果你熟悉JDBC的话，以上的用法除了配置外，其它的是不是毫无违和感。
+项目里面虽然有example，但是确实结构混乱，也不完整，这里找到一篇官方的例子可以[参考](https://shardingsphere.apache.org/document/5.0.0/en/user-manual/shardingsphere-jdbc/usage/sharding/java-api/)，例子主要分为两段，第一段是创建数据源，第二段是使用数据源执行SQL，如果你熟悉JDBC的话，以上的用法除了配置外，其它的是不是毫无违和感。
 
 主要对象是ShardingSphereDataSourceFactory，下面带你进行源代码解读。
 
@@ -162,7 +163,7 @@ ShardingSphereConnection的prepareStatement方法创建的是ShardingSpherePrepa
 
 这个方法虽然不长，但是涵盖我们上面说的主要执行过程，createExecutionContext用于创建执行上下文，主要是做SQL解析和路由两件事情，executeQuery0主要是调用执行引擎来执行SQL，mergeQuery是用来做结果归并，代码是不是非常清晰？确实是值得我们学习，为避免大家陷入代码海洋，今天就点到为止，大家有兴趣可以下载代码进行赏读。
 
-结语，伟大的框架值得我们花时间会研究和阅读，今天是端午节，祝大家端午安康，付上苏轼的词一首
+结语，伟大的框架值得我们花时间会研究和阅读，今天是端午节，祝大家端午安康，附上苏轼的词一首
 
 > 【浣溪沙.端午】
 【宋】苏轼
