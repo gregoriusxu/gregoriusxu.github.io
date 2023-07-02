@@ -37,7 +37,7 @@ pluginFinder = new PluginFinder(new PluginBootstrap().loadPlugins());
 找到所有插件定义类之后PluginFinder现在持有了所有插件定义类，它将增强的准备工作交给了BootstrapInstrumentBoost.inject方法处理，这个方法主要是为了创建bytebuddy的 AgentBuilder，真正做事的方法是prepareJREInstrumentation
 
 ``` java
-/**
+    /**
      * Generate dynamic delegate for ByteBuddy
      *
      * @param pluginFinder   gets the whole plugin list.
@@ -98,33 +98,30 @@ pluginFinder = new PluginFinder(new PluginBootstrap().loadPlugins());
 ``` java
 
 @Override
-        public DynamicType.Builder<?> transform(final DynamicType.Builder<?> builder,
-                                                final TypeDescription typeDescription,
-                                                final ClassLoader classLoader,
-                                                final JavaModule module) {
-            LoadedLibraryCollector.registerURLClassLoader(classLoader);
-            List<AbstractClassEnhancePluginDefine> pluginDefines = pluginFinder.find(typeDescription);
-            if (pluginDefines.size() > 0) {
-                DynamicType.Builder<?> newBuilder = builder;
-                EnhanceContext context = new EnhanceContext();
-                for (AbstractClassEnhancePluginDefine define : pluginDefines) {
-                    DynamicType.Builder<?> possibleNewBuilder = define.define(
-                            typeDescription, newBuilder, classLoader, context);
+public DynamicType.Builder<?> transform(final DynamicType.Builder<?> builder,final TypeDescription typeDescription,final ClassLoader classLoader,final JavaModule module) {
+        LoadedLibraryCollector.registerURLClassLoader(classLoader);
+        List<AbstractClassEnhancePluginDefine> pluginDefines = pluginFinder.find(typeDescription);
+        if (pluginDefines.size() > 0) {
+            DynamicType.Builder<?> newBuilder = builder;
+            EnhanceContext context = new EnhanceContext();
+            for (AbstractClassEnhancePluginDefine define : pluginDefines) {
+                DynamicType.Builder<?> possibleNewBuilder = define.define(
+                    typeDescription, newBuilder, classLoader, context);
                     if (possibleNewBuilder != null) {
                         newBuilder = possibleNewBuilder;
                     }
-                }
-                if (context.isEnhanced()) {
-                    LOGGER.debug("Finish the prepare stage for {}.", typeDescription.getName());
-                }
-
-                return newBuilder;
+            }
+            if (context.isEnhanced()) {
+                LOGGER.debug("Finish the prepare stage for {}.", typeDescription.getName());
             }
 
-            LOGGER.debug("Matched class {}, but ignore by finding mechanism.", typeDescription.getTypeName());
-            return builder;
+            return newBuilder;
         }
-    }
+
+        LOGGER.debug("Matched class {}, but ignore by finding mechanism.", typeDescription.getTypeName());
+        return builder;
+}
+
 ```
 
 最后我们来看一下真正增强实例类的方法org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.ClassEnhancePluginDefine#enhanceInstance
@@ -132,34 +129,34 @@ pluginFinder = new PluginFinder(new PluginBootstrap().loadPlugins());
 ``` java
 
 // ...方法太长，自己看一下
-
-        /**
-         * Manipulate class source code.<br/>
-         *
-         * new class need:<br/>
-         * 1.Add field, name {@link #CONTEXT_ATTR_NAME}.
-         * 2.Add a field accessor for this field.
-         *
-         * And make sure the source codes manipulation only occurs once.
-         *
-         */
-        if (!typeDescription.isAssignableTo(EnhancedInstance.class)) {
-            if (!context.isObjectExtended()) {
-                newClassBuilder = newClassBuilder.defineField(
-                    CONTEXT_ATTR_NAME, Object.class, ACC_PRIVATE | ACC_VOLATILE)
-                                                 .implement(EnhancedInstance.class)
-                                                 .intercept(FieldAccessor.ofField(CONTEXT_ATTR_NAME));
-                context.extendObjectCompleted();
-            }
-        }
+/**
+ * Manipulate class source code.<br/>
+ *
+ * new class need:<br/>
+ * 1.Add field, name {@link #CONTEXT_ATTR_NAME}.
+ * 2.Add a field accessor for this field.
+ *
+ * And make sure the source codes manipulation only occurs once.
+ *
+ */
+if (!typeDescription.isAssignableTo(EnhancedInstance.class)) {
+    if (!context.isObjectExtended()) {
+        newClassBuilder = newClassBuilder.defineField(
+           CONTEXT_ATTR_NAME, Object.class, ACC_PRIVATE | ACC_VOLATILE)
+                          .implement(EnhancedInstance.class)
+                                    .intercept(FieldAccessor.ofField(CONTEXT_ATTR_NAME));
+        context.extendObjectCompleted();
+    }
+}
 // 其它逻辑
  newClassBuilder = newClassBuilder.method(junction)
-                                                         .intercept(MethodDelegation.withDefaultConfiguration()
-                                                                                    .to(new InstMethodsInter(interceptor, classLoader)));
+ .intercept(MethodDelegation.withDefaultConfiguration()
+ .to(new InstMethodsInter(interceptor, classLoader)));
+
 // ...其它逻辑
 ```
 
-方法太长，我们只关注主重要的一些代码，第一块是让目标类实现EnhancedInstance接口，在目标方法里面定义一个名称是CONTEXT_ATTR_NAME()_$EnhancedClassField_ws的字段， 定义getSkyWalkingDynamicField() 和setSkyWalkingDynamicField() 两个方法，分别读写新增的_$EnhancedClassField_ws 字段，这个很重要，是用来承载Tracing信息的字段，下面一行是使用bytebuddy 方法拦截类InstMethodsInter，bytebuddy帮我们调用这个拦截类的intercept方法
+方法太长，我们只关注主重要的一些代码，第一块是让目标类实现EnhancedInstance接口，在目标方法里面定义一个名称是CONTEXT\_ATTR\_NAME即\_\$EnhancedClassField_ws的字段， 定义getSkyWalkingDynamicField() 和setSkyWalkingDynamicField() 两个方法，分别读写新增的\_\$EnhancedClassField_ws 字段，这个很重要，是用来承载Tracing信息的字段，下面一行是使用bytebuddy 方法拦截类InstMethodsInter，bytebuddy帮我们调用这个拦截类的intercept方法
 
 ``` java
 
@@ -215,13 +212,12 @@ pluginFinder = new PluginFinder(new PluginBootstrap().loadPlugins());
 
 ### Tracing上报解析
 
-我们还是以上面的慢SQL上报为例进行说明，上面我们说到增加类会继承接口EnhancedInstance，在JDBC执行的过程中，SkyWalking分别对Connection，PreparedStatement或者createStatement方法进行增强，最后对PreparedStatement的executeQuery，executeUpdate executeLargeUpdate增加的org.apache.skywalking.apm.plugin.jdbc.mysql.PreparedStatementExecuteMethodsInterceptor或Statement的executeQuery，executeUpdate，executeLargeUpdate，executeBatchInternal，executeUpdateInternal，executeQuery，executeBatch方法进行增强的org.apache.skywalking.apm.plugin.jdbc.mysql.StatementExecuteMethodsInterceptor，前面对Connection，PreparedStatement增加主要是为了将链接信息，SQL参数信息放到上下文进行传递，最后PreparedStatementExecuteMethodsInterceptor或者StatementExecuteMethodsInterceptor进行上报处理，我们以PreparedStatementExecuteMethodsInterceptor为例来看一下代码
+我们还是以上面的慢SQL上报为例进行说明，上面我们说到增加类会继承接口EnhancedInstance，在JDBC执行的过程中，SkyWalking分别对Connection，PreparedStatement或者createStatement方法进行增强，最后对PreparedStatement的executeQuery，executeUpdate executeLargeUpdate增强的org.apache.skywalking.apm.plugin.jdbc.mysql.PreparedStatementExecuteMethodsInterceptor或Statement的executeQuery，executeUpdate，executeLargeUpdate，executeBatchInternal，executeUpdateInternal，executeQuery，executeBatch方法进行增强的org.apache.skywalking.apm.plugin.jdbc.mysql.StatementExecuteMethodsInterceptor，前面对Connection，PreparedStatement增加主要是为了将链接信息，SQL参数信息放到上下文进行传递，最后PreparedStatementExecuteMethodsInterceptor或者StatementExecuteMethodsInterceptor进行上报处理，我们以PreparedStatementExecuteMethodsInterceptor为例来看一下代码
 
 ``` java
 
 @Override
-    public final void beforeMethod(EnhancedInstance objInst, Method method, Object[] allArguments,
-                                   Class<?>[] argumentsTypes, MethodInterceptResult result) {
+public final void beforeMethod(EnhancedInstance objInst, Method method, Object[] allArguments, Class<?>[] argumentsTypes, MethodInterceptResult result) {
         StatementEnhanceInfos cacheObject = (StatementEnhanceInfos) objInst.getSkyWalkingDynamicField();
         /**
          * For avoid NPE. In this particular case, Execute sql inside the {@link com.mysql.jdbc.ConnectionImpl} constructor,
@@ -251,26 +247,25 @@ pluginFinder = new PluginFinder(new PluginBootstrap().loadPlugins());
 
             SpanLayer.asDB(span);
         }
-    }
+}
 
-    @Override
-    public final Object afterMethod(EnhancedInstance objInst, Method method, Object[] allArguments,
-                                    Class<?>[] argumentsTypes, Object ret) {
-        StatementEnhanceInfos cacheObject = (StatementEnhanceInfos) objInst.getSkyWalkingDynamicField();
-        if (cacheObject != null && cacheObject.getConnectionInfo() != null) {
+@Override
+public final Object afterMethod(EnhancedInstance objInst, Method method, Object[] allArguments,Class<?>[] argumentsTypes, Object ret) {
+    StatementEnhanceInfos cacheObject = (StatementEnhanceInfos) objInst.getSkyWalkingDynamicField();
+    if (cacheObject != null && cacheObject.getConnectionInfo() != null) {
             ContextManager.stopSpan();
-        }
-        return ret;
     }
 
-    @Override
-    public final void handleMethodException(EnhancedInstance objInst, Method method, Object[] allArguments,
-                                            Class<?>[] argumentsTypes, Throwable t) {
-        StatementEnhanceInfos cacheObject = (StatementEnhanceInfos) objInst.getSkyWalkingDynamicField();
-        if (cacheObject != null && cacheObject.getConnectionInfo() != null) {
-            ContextManager.activeSpan().log(t);
-        }
+    return ret;
+}
+
+@Override
+public final void handleMethodException(EnhancedInstance objInst, Method method, Object[] allArguments,Class<?>[] argumentsTypes, Throwable t) {
+    StatementEnhanceInfos cacheObject = (StatementEnhanceInfos) objInst.getSkyWalkingDynamicField();
+    if (cacheObject != null && cacheObject.getConnectionInfo() != null) {
+        ContextManager.activeSpan().log(t);
     }
+}
 ```
 
 在解释上面的代码之前，首先我们来了解几个概念：
@@ -287,11 +282,11 @@ Span 分为 3 类：
 
 - setComponent() 方法：用于设置组件类型。它有两个重载，在 AbstractTracingSpan 实现中，有 componentId 和 componentName 两个字段，两个重载分别用于设置这两个字段。在 ComponentsDefine 中可以找到 SkyWalking 目前支持的组件类型。
 - setLayer() 方法：用于设置 SpanLayer，也就是当前 Span 所处的位置。SpanLayer 是个枚举，可选项有 DB、RPC_FRAMEWORK、HTTP、MQ、CACHE。
-- tag(AbstractTag, String) 方法：用于为当前 Span 添加键值对的 Tags。一个 Span 可以有多个 Tags。AbstractTag 中不仅包含了 String 类型的 Key 值，还包含了 Tag 的 ID 以及 canOverwrite 标识。AbstractTracingSpan 实现通过维护一个  List<TagValuePair> 集合（tags 字段）来记录 Tag 信息，TagValuePair 中则封装了 AbstractTag 类型的 Key 以及 String 类型的 Value。
-- log() 方法：用于向当前 Span 中添加 Log，一个 Span 可以包含多条日志。在 AbstractTracingSpan 实现中通过维护一个 List<LogDataEntity> 集合（logs 字段）来记录 Log。LogDataEntity 会记录日志的时间戳以及 KV 信息，以异常日志为例，其中就会包含一个 Key 为“stack”的 KV，其 value 为异常堆栈。
+- tag(AbstractTag, String) 方法：用于为当前 Span 添加键值对的 Tags。一个 Span 可以有多个 Tags。AbstractTag 中不仅包含了 String 类型的 Key 值，还包含了 Tag 的 ID 以及 canOverwrite 标识。AbstractTracingSpan 实现通过维护一个  List\<TagValuePair\> 集合（tags 字段）来记录 Tag 信息，TagValuePair 中则封装了 AbstractTag 类型的 Key 以及 String 类型的 Value。
+- log() 方法：用于向当前 Span 中添加 Log，一个 Span 可以包含多条日志。在 AbstractTracingSpan 实现中通过维护一个 List\<LogDataEntity\> 集合（logs 字段）来记录 Log。LogDataEntity 会记录日志的时间戳以及 KV 信息，以异常日志为例，其中就会包含一个 Key 为“stack”的 KV，其 value 为异常堆栈。
 - start() 方法：开启 Span，其中会设置当前 Span 的开始时间以及调用层级等信息。
-- isEntry() 方法：判断当前是否是 EntrySpan。EntrySpan 的具体实现后面详细介绍。
-- isExit() 方法：判断当前是否是 ExitSpan。ExitSpan  的具体实现后面详细介绍。
+- isEntry() 方法：判断当前是否是 EntrySpan。
+- isExit() 方法：判断当前是否是 ExitSpan。
 - ref() 方法：用于设置关联的 TraceSegment 。
   
 #### TraceSegment
@@ -304,7 +299,7 @@ SkyWalking 中的每个 TraceSegment 都与一个 Context 上下文对象一对�
 
 AbstractTracerContext 是对上下文概念的抽象，其中定义了 Context 上下文的基本行为：
 
-- inject(ContextCarrier) 方法：在跨进程调用之前，调用方会通过 inject() 方法将当前 Context 上下文记录的全部信息注入到 ContextCarrier 参数中，Agent 后续会将 ContextCarrier 序列化并随远程调用进行传播。ContextCarrier 的具体实现在后面会详细分析。
+- inject(ContextCarrier) 方法：在跨进程调用之前，调用方会通过 inject() 方法将当前 Context 上下文记录的全部信息注入到 ContextCarrier 参数中，Agent 后续会将 ContextCarrier 序列化并随远程调用进行传播。
 
 - extract(ContextCarrier) 方法：跨进程调用的接收方会反序列化得到 ContextCarrier 对象，然后通过 extract() 方法从 ContextCarrier 中读取上游传递下来的 Trace 信息并记录到当前的 Context 上下文中。
 
@@ -322,11 +317,11 @@ AbstractTracerContext 是对上下文概念的抽象，其中定义了 Context 
 
 AbstractTraceContext 有两个实现类IgnoredTracerContext，TracingContext，IgnoredTracerContext 表示该 Trace 将会被丢失，所以其中不会记录任何信息，里面所有方法也都是空实现。这里重点来看 TracingContext，其核心字段如下：
 
-- samplingService（SamplingService 类型）：负责完成 Agent 端的 Trace 采样，后面会展开介绍具体的采样逻辑。
+- samplingService（SamplingService 类型）：负责完成 Agent 端的 Trace 采样。
 
 - segment（TraceSegment 类型）：它是与当前 Context 上下文关联的 TraceSegment 对象，在 TracingContext 的构造方法中会创建该对象。
 
-- activeSpanStack（LinkedList<AbstractSpan> 类型）：用于记录当前 TraceSegment 中所有活跃的 Span（即未关闭的 Span）。实际上 activeSpanStack 字段是作为栈使用的，TracingContext 提供了 push() 、pop() 、peek() 三个标准的栈方法，以及 first() 方法来访问栈底元素。
+- activeSpanStack（LinkedList\<AbstractSpan\> 类型）：用于记录当前 TraceSegment 中所有活跃的 Span（即未关闭的 Span）。实际上 activeSpanStack 字段是作为栈使用的，TracingContext 提供了 push() 、pop() 、peek() 三个标准的栈方法，以及 first() 方法来访问栈底元素。
 
 - spanIdGenerator（int 类型）：它是 Span ID 自增序列，初始值为 0。该字段的自增操作都是在一个线程中完成的，所以无需加锁。
 
@@ -373,7 +368,7 @@ TraceSegmentServiceClient 作为一个 TracingContextListener 接口的实现，
 ``` java
 
 @Override
-    public void consume(List<TraceSegment> data) {
+public void consume(List<TraceSegment> data) {
         if (CONNECTED.equals(status)) {
             final GRPCStreamServiceStatus status = new GRPCStreamServiceStatus(false);
             StreamObserver<SegmentObject> upstreamSegmentStreamObserver = serviceStub.withDeadlineAfter(
@@ -424,7 +419,49 @@ TraceSegmentServiceClient 作为一个 TracingContextListener 接口的实现，
         }
 
         printUplinkStatus();
-    }
-    ```
+}
+```
 
 注意，TraceSegmentServiceClient 在批量发送完 UpstreamSegment 数据之后，会通过 GRPCStreamServiceStatus 进行自旋等待，直至该批 UpstreamSegment 全部发送完毕。
+
+下面我们来分析一下TraceSegmentServiceClient在哪里启动的以及consume是如何调用的，还记得上篇文章我们分析SkyWalking的微内核架构吗？我们列出了第一个启动服务类就是TraceSegmentServiceClient，可以看到TraceSegmentServiceClient继承于BootService的微内核服务，这个服务就是用来消费是报数据使用。TracingContext将上报数据缓存到TraceSegmentServiceClient的DataCarrier，同时DataCarrier持有一个ConsumeDriver对象，这个对象相当于一个线程池，线程池里面实际的工作线程是ConsumerThread，这个继承于Thread的线程，用来消费实现了org.apache.skywalking.apm.commons.datacarrier.consumer.IConsumer接口的实现类，TraceSegmentServiceClient就实现了这个接口，在构造DataCarrier传了this，ConsumeDriver将DataCarrier传的 Channels 转为ConsumerThread持有的List\<DataSource\> 类型数组对象dataSources，这样dataSources持有了Channels所持有的QueueBuffer\<T\>队列，最后将QueueBuffer\<T\>队列里面的元素drainTo到一个List数组，最终传给IConsumer接口的实现类进行消费，下面是org.apache.skywalking.apm.commons.datacarrier.consumer.ConsumerThread#consume的实现。
+
+``` java
+
+    private boolean consume(List<T> consumeList) {
+        for (DataSource dataSource : dataSources) {
+            dataSource.obtain(consumeList);
+        }
+
+        if (!consumeList.isEmpty()) {
+            try {
+                consumer.consume(consumeList);
+            } catch (Throwable t) {
+                consumer.onError(consumeList, t);
+            } finally {
+                consumeList.clear();
+            }
+            return true;
+        }
+        consumer.nothingToConsume();
+        return false;
+    }
+```
+
+最后我们分析一下ContextManager，顾名思意，这是一个管理TraceSegment上报数据上下文的类，同样它也是继承自BootService，同样回归前一篇文章，我们列出的第二个服务器就是它，ContextManager里面的属性有两个ThreadLocal数组ThreadLocal\<AbstractTracerContext> 类型的CONTEXT,ThreadLocal\<RuntimeContext> 的RUNTIME_CONTEXT，CONTEXT具体的类型就是我们上面提到的IgnoredTracerContext，TracingContext,RUNTIME_CONTEXT用来传递trace过程中的中间数据，我们可以发现ContextManager的prepare，boot，onComplete，shutdown都是空的，为什么这么设计？我猜测只是借助于初始化过程做一个ThreadLocal的预热。
+
+TraceSegment是如何填充数据的？我们发现TraceSegment只有archive方法做了数据的添加，最后跟踪到org.apache.skywalking.apm.agent.core.context.TracingContext#stopSpan调用org.apache.skywalking.apm.agent.core.context.trace.AbstractTracingSpan#finish方法将数据装入TraceSegment
+
+``` java
+    /**
+     * Finish the active Span. When it is finished, it will be archived by the given {@link TraceSegment}, which owners
+     * it.
+     *
+     * @param owner of the Span.
+     */
+    public boolean finish(TraceSegment owner) {
+        this.endTime = System.currentTimeMillis();
+        owner.archive(this);
+        return true;
+    }
+```
