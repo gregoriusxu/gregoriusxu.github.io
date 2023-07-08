@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SkyWalking之Tracing
-subtitle: 从客户端和服务端解读Tracing模块源代码
+subtitle: 从客户端解读Tracing模块源代码
 author: gregorius
 header-img: img/post-bg-universe.jpg
 catalog: true
