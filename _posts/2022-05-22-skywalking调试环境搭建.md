@@ -93,7 +93,7 @@ test.skywalking.springcloud.test.projecta.ProjectA#main
 ```
 
 需要启动ProjectA
-浏览器打开 <http://localhost:8764/projectA/test>
+浏览器打开 <http://localhost/projectA/test>
 
 ##### 注意事项
 
