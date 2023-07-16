@@ -76,7 +76,26 @@ oap-server/oal-grammar/target/generated-sources
 运行 apm-webapp 的 org.apache.skywalking.apm.webapp.ApplicationStartUp 的 #main(args) 方法，启动 SkyWalking UI 。
 浏览器打开 <http://127.0.0.1:8080>
 
-### 注意事项
+#### 演示项目
+
+从<https://github.com/SkyAPMTest/skywalking-live-demo> 下载演示项目
+
+``` text
+> git clone https://github.com/SkywalkingTest/skywalking-live-demo.git
+> cd skywalking-live-demo 
+> mvn clean package # build the live demo archive
+```
+
+演示项目基于Spring Boot搭建，ProjectA调用ProjectB,ProjectC,ProjectD，首先通过
+
+``` text
+test.skywalking.springcloud.test.projecta.ProjectA#main
+```
+
+需要启动ProjectA
+浏览器打开 <http://localhost:8764/projectA/test>
+
+##### 注意事项
 
 上面的文章可能是基于skywalking比较老的版本搭建，启动时maven项目依赖的**log4j包和server端有冲突**，所有需要修改pom.xml文档，将pom文件版本号改为**2.6.2**，同时文章是基于老版本编码，agent的构建过程有差异，需要基于java客户端进行构建，构建完成后会在skywalking-agent目录生成skywalking-agent.jar，同时这个demo项目是由几个spring boot 项目组成，A调用B，C，初始为避免复杂性可以先将调用B,C项目代码注释。
 
