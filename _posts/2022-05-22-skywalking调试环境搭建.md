@@ -24,7 +24,7 @@ skywalking是一款很优秀的监控系统，采用代理方式基于切面编�
 
 工欲善其事必先利其器，因此在构建之前需要说明一些需要的工具：
 
-JDK 8：官方提倡
+JDK 11：官方提倡
 Maven3
 Git
 npm
@@ -87,16 +87,31 @@ oap-server/oal-grammar/target/generated-sources
 ```
 
 演示项目基于Spring Boot搭建，ProjectA调用ProjectB,ProjectC,ProjectD，首先通过
+启动参数设置
 
 ``` text
+-javaagent:/xxx/skywalking-java/skywalking-agent/skywalking-agent.jar
+-Dskywalking.collector.grpc_channel_check_interval=2
+-Dskywalking.collector.app_and_service_register_check_interval=2
+-Dcollector.discovery_check_interval=2
+-Dskywalking.collector.backend_service=localhost:11800
+-Dskywalking.agent.service_name=business-zone::projectA
+-Dskywalking.logging.level=info
+-Dskywalking.plugin.toolkit.log.grpc.reporter.server_host=localhost
+-Dskywalking.plugin.toolkit.log.grpc.reporter.server_port=11800
+-Dskywalking.plugin.toolkit.log.grpc.reporter.max_message_size=10485760
+-Dskywalking.plugin.toolkit.log.grpc.reporter.upstream_timeout=30
+
+然后通过下面的方法启动ProjectA
+
 test.skywalking.springcloud.test.projecta.ProjectA#main
 ```
 
-需要启动ProjectA
+启动后
 浏览器打开 <http://localhost/projectA/test>
 
 ##### 注意事项
 
-上面的文章可能是基于skywalking比较老的版本搭建，启动时maven项目依赖的**log4j包和server端有冲突**，所有需要修改pom.xml文档，将pom文件版本号改为**2.6.2**，同时文章是基于老版本编码，agent的构建过程有差异，需要基于java客户端进行构建，构建完成后会在skywalking-agent目录生成skywalking-agent.jar，同时这个demo项目是由几个spring boot 项目组成，A调用B，C，初始为避免复杂性可以先将调用B,C项目代码注释。
+启动时maven项目依赖的**log4j包和server端有冲突**，所有需要修改pom.xml文档，将pom文件版本号改为**2.6.2**，同时文章是基于老版本编码，agent的构建过程有差异，需要基于java客户端进行构建，构建完成后会在skywalking-agent目录生成skywalking-agent.jar，同时这个demo项目是由几个spring boot 项目组成，A调用B，C，初始为避免复杂性可以先将调用B,C项目代码注释。
 
 同时支持其实A项目的端口是**80，B，C也是80**，如果需要同时启动需要修改B，C端口分别为**81，82**
