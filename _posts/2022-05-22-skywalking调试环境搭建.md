@@ -25,9 +25,10 @@ skywalking是一款很优秀的监控系统，采用代理方式基于切面编�
 工欲善其事必先利其器，因此在构建之前需要说明一些需要的工具：
 
 JDK 11：官方提倡
-Maven3
+Maven3 >3.6
 Git
 npm
+nodejs >12.0.0
 IDEA
 
 #### 下载源代码
@@ -36,18 +37,29 @@ IDEA
 git clone --recurse-submodules https://github.com/apache/skywalking.git
 cd skywalking/
 ./mvnw clean package -DskipTests
+```
 
 或
 
+``` text
 git clone https://github.com/apache/skywalking.git
 cd skywalking/
 git submodule init
 git submodule update
+```
 
-./mvnw compile -Dmaven.test.skip=true
+打开IDEA Terminal执行Maven编译命令：
+
+``` text
+ ./mvnw compile -Dmaven.test.skip=true
+```
+
+执行完成之后，会生成许多源码文件，因此我们需要将文件所在目录设置为源码目录，便于IDEA在编译时进行识别。
 
 设置源码目录
-分别将下边9个目录设置为源码目录：
+分别将下边8个目录设置为源码目录：
+
+``` text
 
 grpc-java and java folders in apm-protocol/apm-network/target/generated-sources/protobuf
 grpc-java and java folders in oap-server/server-core/target/generated-sources/protobuf
@@ -57,6 +69,7 @@ grpc-java and java folders in oap-server/exporter/target/generated-sources/proto
 grpc-java and java folders in oap-server/server-configuration/grpc-configuration-sync/target/generated-sources/protobuf
 grpc-java and java folders in oap-server/server-alarm-plugin/target/generated-sources/protobuf
 antlr4 folder in oap-server/oal-grammar/target/generated-sources
+```
 
 设置方法如下（以apm-protocol/apm-network/target/generated-sources/protobuf为例）：
 
@@ -64,13 +77,16 @@ antlr4 folder in oap-server/oal-grammar/target/generated-sources
 
 设置后对应目录编程蓝色，则表明设置成功。
 
-打开IDEA Terminal执行Maven编译命令：
- ./mvnw compile -Dmaven.test.skip=true
-执行完成之后，会生成许多源码文件，因此我们需要将文件所在目录设置为源码目录，便于IDEA在编译时进行识别。
 
-```
+注意：
+
+- 目前2023/7/23 的版本master最新的构建不过，只好checkout到8.8.x
+- receive-proto项目依赖的flatbuffers-compiler在阿里云镜像找不到，需要将版本从1.12.0.1修改为2.0.8，执行完成再改回去执行一次编译就可以了！
+- npm执行报错需要通过命令安装依赖或者升级npm到12以上 npm i polyfill-object.fromentries,主要原因是apm-webapp pom文件使用的node版本太老需要修改为最新的20.5.0
 
 #### 编译源代码
+
+分别对skywalking和skywalking-java进行编译，skywalking-java编译后会在skywalking-agent目录生成skywalking-agent.jar，后面我们会用到
 
 ``` text
 ./mvnw clean package -DskipTests
@@ -79,6 +95,8 @@ antlr4 folder in oap-server/oal-grammar/target/generated-sources
 #### 启动OAP Server
 
 运行OAP-server的org.apache.skywalking.oap.server.starter.OAPServerStartUp的#main(args)方法,启动SkyWalking OAP Server。
+
+- 运行过程中报graphsql 初始化MetaDataQuery.getAllService报错No TypeDefinition for type name Service，经历调试发现是生成的jar包query-graphql-plugin里面query-protocol目录下的metadata.graphqls存在问题，重新新install server-query-plugin项目后正常运行。
 
 #### 启动SkyWalking UI
 
