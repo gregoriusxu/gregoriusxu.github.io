@@ -43,20 +43,21 @@ git clone https://github.com/apache/skywalking.git
 cd skywalking/
 git submodule init
 git submodule update
-./mvnw clean package -DskipTests
-```
 
-#### 编译源代码
+./mvnw compile -Dmaven.test.skip=true
 
 设置源码目录
-分别将下边5个目录设置为源码目录：
+分别将下边9个目录设置为源码目录：
 
-apm-protocol/apm-network/target/generated-sources/protobuf
-oap-server/server-core/target/generated-sources/protobuf
-oap-server/server-receiver-plugin/receiver-proto/target/generated-sources/protobuf
-oap-server/exporter/target/generated-sources/protobuf
-oap-server/server-configuration/grpc-configuration-sync/target/generated-sources/protobuf
-oap-server/oal-grammar/target/generated-sources
+grpc-java and java folders in apm-protocol/apm-network/target/generated-sources/protobuf
+grpc-java and java folders in oap-server/server-core/target/generated-sources/protobuf
+grpc-java and java folders in oap-server/server-receiver-plugin/receiver-proto/target/generated-sources/fbs
+grpc-java and java folders in oap-server/server-receiver-plugin/receiver-proto/target/generated-sources/protobuf
+grpc-java and java folders in oap-server/exporter/target/generated-sources/protobuf
+grpc-java and java folders in oap-server/server-configuration/grpc-configuration-sync/target/generated-sources/protobuf
+grpc-java and java folders in oap-server/server-alarm-plugin/target/generated-sources/protobuf
+antlr4 folder in oap-server/oal-grammar/target/generated-sources
+
 设置方法如下（以apm-protocol/apm-network/target/generated-sources/protobuf为例）：
 
 在IDEA上找到该目录-->右键-->Mark Directory as-->Generated Source Root
@@ -66,6 +67,14 @@ oap-server/oal-grammar/target/generated-sources
 打开IDEA Terminal执行Maven编译命令：
  ./mvnw compile -Dmaven.test.skip=true
 执行完成之后，会生成许多源码文件，因此我们需要将文件所在目录设置为源码目录，便于IDEA在编译时进行识别。
+
+```
+
+#### 编译源代码
+
+``` text
+./mvnw clean package -DskipTests
+```
 
 #### 启动OAP Server
 
@@ -109,9 +118,3 @@ test.skywalking.springcloud.test.projecta.ProjectA#main
 
 启动后
 浏览器打开 <http://localhost/projectA/test>
-
-##### 注意事项
-
-启动时maven项目依赖的**log4j包和server端有冲突**，所有需要修改pom.xml文档，将pom文件版本号改为**2.6.2**，同时文章是基于老版本编码，agent的构建过程有差异，需要基于java客户端进行构建，构建完成后会在skywalking-agent目录生成skywalking-agent.jar，同时这个demo项目是由几个spring boot 项目组成，A调用B，C，初始为避免复杂性可以先将调用B,C项目代码注释。
-
-同时支持其实A项目的端口是**80，B，C也是80**，如果需要同时启动需要修改B，C端口分别为**81，82**
