@@ -48,7 +48,7 @@ git submodule init
 git submodule update
 ```
 
-打开IDEA Terminal执行Maven编译命令：
+打开IDEA Terminal执行Maven编译命令，编译前profiles需要勾选backend,windows：
 
 ``` text
  ./mvnw compile -Dmaven.test.skip=true
@@ -81,7 +81,7 @@ antlr4 folder in oap-server/oal-grammar/target/generated-sources
 注意：
 
 - 目前2023/7/23 的版本master最新的构建不过，只好checkout到8.8.x
-- receive-proto项目依赖的flatbuffers-compiler在阿里云镜像找不到，需要将版本从1.12.0.1修改为2.0.8，执行完成再改回去执行一次编译就可以了！
+- receive-proto项目依赖的flatbuffers-compiler在阿里云镜像找不到，需要将版本从1.12.0.1修改为2.0.8，执行完成再改回去执行一次编译就可以了！后来发现原因是没有勾选windows。
 - npm执行报错需要通过命令安装依赖或者升级npm到12以上 npm i polyfill-object.fromentries,主要原因是apm-webapp pom文件使用的node版本太老需要修改为最新的20.5.0
 
 #### 编译源代码
