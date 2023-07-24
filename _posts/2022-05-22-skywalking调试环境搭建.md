@@ -94,13 +94,13 @@ antlr4 folder in oap-server/oal-grammar/target/generated-sources
 
 #### 启动OAP Server
 
-运行OAP-server的org.apache.skywalking.oap.server.starter.OAPServerStartUp的#main(args)方法,启动SkyWalking OAP Server。
+运行OAP-server的org.apache.skywalking.oap.server.starter.OAPServerStartUp的#main(args)方法,启动SkyWalking OAP Server，由于构建比较耗时，启动需要勾选启动前不构建。
 
 - 运行过程中报graphsql 初始化MetaDataQuery.getAllService报错No TypeDefinition for type name Service，经历调试发现是生成的jar包query-graphql-plugin里面query-protocol目录下的metadata.graphqls存在问题，重新新install server-query-plugin项目后正常运行。
 
 #### 启动SkyWalking UI
 
-运行 apm-webapp 的 org.apache.skywalking.apm.webapp.ApplicationStartUp 的 #main(args) 方法，启动 SkyWalking UI 。
+运行 apm-webapp 的 org.apache.skywalking.apm.webapp.ApplicationStartUp 的 #main(args) 方法，启动 SkyWalking UI，由于构建比较耗时，启动需要勾选启动前不构建。
 浏览器打开 <http://127.0.0.1:8080>
 
 #### 演示项目
