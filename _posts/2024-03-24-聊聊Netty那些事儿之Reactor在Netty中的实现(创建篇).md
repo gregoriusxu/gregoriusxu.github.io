@@ -18,7 +18,7 @@ tags: [设计]
 
 > 本系列Netty源码解析文章基于 **4.1.56.Final**版本
 
-在上篇文章[《聊聊Netty那些事儿之从内核角度看IO模型》](https://mp.weixin.qq.com/s?__biz=Mzg2MzU3Mjc3Ng==&mid=2247483737&idx=1&sn=7ef3afbb54289c6e839eed724bb8a9d6&chksm=ce77c71ef9004e08e3d164561e3a2708fc210c05408fa41f7fe338d8e85f39c1ad57519b614e&scene=21#wechat_redirect)中我们花了大量的篇幅来从内核角度详细讲述了五种`IO模型`的演进过程以及`ReactorIO线程模型`的底层基石IO多路复用技术在内核中的实现原理。
+在上篇文章[《聊聊Netty那些事儿之从内核角度看IO模型》](https://gregoriusxu.github.io/2024/03/03/%E8%81%8A%E8%81%8ANetty%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF%E4%B9%8B%E4%BB%8E%E5%86%85%E6%A0%B8%E8%A7%92%E5%BA%A6%E7%9C%8BIO%E6%A8%A1%E5%9E%8B_/)中我们花了大量的篇幅来从内核角度详细讲述了五种`IO模型`的演进过程以及`ReactorIO线程模型`的底层基石IO多路复用技术在内核中的实现原理。
 
 最后我们引出了netty中使用的主从Reactor IO线程模型。
 ![netty_2](https://raw.githubusercontent.com/gregoriusxu/gallery/main/blogs/picturenetty_2.png)
