@@ -1146,7 +1146,3 @@ ___
 This article is very informative. It uses 25 illustrations and 22,336 words to start by explaining how the kernel processes the sending and receiving of network packets, and then introduces concepts from the kernel's perspective, which are often confusing. As a prelude, the article presents five types of I/O models and then discusses their principles and a comprehensive comparison in terms of technical evolution related to the C10K problem. Finally, the article introduces two types of I/O thread models and their implementation in frameworks like Netty.
 
 Thank you all for listening to me talk till here, haha, now you can rub your eyes, stretch, and have a good rest.
-
-No relevant [Issues](https://github.com/gregoriusxu/gregoriusxu.github.io/issues) found for comment
-
-Please contact @gregoriusxu to initiate creation
