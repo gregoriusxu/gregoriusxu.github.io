@@ -197,7 +197,7 @@ When there is data in the receive buffer of a socket, the performance of blocked
 
 ![640 (1)](https://i.imgur.com/0wwoApx.jpeg)
 
-From the above figure, we can see that **the non-blocking** feature is in the first stage `不会等待`, but it will still occur in the second stage `等待`.
+From the above figure, we can see that the non-blocking feature is present in the first stage "does not wait", but it will still occur in the second stage "waits".
 
 ## Synchronous vs. Asynchronous[](https://gregoriusxu.github.io/2024/03/03/%E8%81%8A%E8%81%8ANetty%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF%E4%B9%8B%E4%BB%8E%E5%86%85%E6%A0%B8%E8%A7%92%E5%BA%A6%E7%9C%8BIO%E6%A8%A1%E5%9E%8B/#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5)
 
